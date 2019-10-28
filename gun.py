@@ -3,7 +3,7 @@ import tkinter as tk
 import math
 import time
 
-# print (dir(math))
+#print (dir(math))
 
 root = tk.Tk()
 fr = tk.Frame(root)
@@ -23,8 +23,8 @@ class ball():
         self.x = x
         self.y = y
         self.r = 10
-        self.vx = 0
-        self.vy = 0
+        self.vx = 5
+        self.vy = 5
         self.color = choice(['blue', 'green', 'red', 'brown'])
         self.id = canv.create_oval(
                 self.x - self.r,
@@ -65,7 +65,11 @@ class ball():
             Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
         """
         # FIXME
-        return False
+        if ((obj.x - self.x)**2 + (obj.y - self.y)**2) < (obj.r + self.r)**2:
+            return True
+        else:
+            return False
+
 
 
 class gun():
