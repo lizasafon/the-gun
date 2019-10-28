@@ -31,8 +31,10 @@ class ball():
                 self.y - self.r,
                 self.x + self.r,
                 self.y + self.r,
-                fill=self.color
+                fill=self.color,
+                tag = 'a'
         )
+        
         self.live = 30
 
     def set_coords(self):
@@ -55,6 +57,22 @@ class ball():
 
         self.x += self.vx
         self.y -= self.vy
+        canv.delete('a')
+        canv.create_oval(
+                self.x - self.r,
+                self.y - self.r,
+                self.x + self.r,
+                self.y + self.r,
+                fill=self.color,
+                tag = 'a'
+        )
+        self.vy -= 1
+        if (self.x + self.r) > 800 or (self.x - self.r) < 0:
+            self.vx  *= (-0.9)
+        if (self.y + self.r) > 600 or (self.x - self.r) < 0:
+            self.vy *= (-0.8)
+        self.live -= 1
+
 
     def hittest(self, obj):
         """Функция проверяет сталкивалкивается ли данный обьект с целью, описываемой в обьекте obj.
