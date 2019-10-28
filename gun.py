@@ -172,19 +172,24 @@ def new_game(event=''):
 
     z = 0.03
     t1.live = 1
-    while t1.live or balls:
+    while t1.live or len(balls):
         for b in balls:
             b.move()
+            if b.live < 0:
+                canv.delete('a')
+                balls.pop(balls.index(b))
             if b.hittest(t1) and t1.live:
                 t1.live = 0
                 t1.hit()
                 canv.bind('<Button-1>', '')
                 canv.bind('<ButtonRelease-1>', '')
                 canv.itemconfig(screen1, text='Вы уничтожили цель за ' + str(bullet) + ' выстрелов')
+                target.new_target(t1)
         canv.update()
         time.sleep(0.03)
         g1.targetting()
         g1.power_up()
+    print(1)
     canv.itemconfig(screen1, text='')
     canv.delete(gun)
     root.after(750, new_game)
@@ -192,4 +197,4 @@ def new_game(event=''):
 
 new_game()
 
-mainloop()
+root.mainloop()
