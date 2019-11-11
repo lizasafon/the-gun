@@ -199,8 +199,8 @@ def new_game(event=''):
     t1.live = 1
     t2.live = 1
     while t1.live or t2.live or len(balls):
-        #t1.move()
-        #t2.move()
+        t1.move()
+        t2.move()
         for b in balls:
             b.move()
             if b.live < 0:
