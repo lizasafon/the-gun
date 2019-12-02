@@ -69,7 +69,7 @@ class ball():
             self.vx  *= (-0.9)
         if (self.y + self.r) > 600 or (self.y - self.r) < 0:
             self.vy *= (-0.8)
-        self.live -= 1
+        #self.live -= 1
 
 
     def hittest(self, obj):
@@ -99,25 +99,28 @@ class gun():
 		global balls, bullet
 		bullet += 1
 		new_ball = ball()
-		new_ball.r += 5
+		new_ball.r += 54
 		self.an = math.atan((event.y-new_ball.y) / (event.x-new_ball.x))
 		new_ball.vx = self.f2_power * math.cos(self.an)
 		new_ball.vy = - self.f2_power * math.sin(self.an)
 		balls += [new_ball]
 		self.f2_on = 0
 		self.f2_power = 10
+
 	def targetting(self, event=0):
-	        """Прицеливание. Зависит от положения мыши."""
-	        if event:
-	            self.an = math.atan((event.y-450) / (event.x-20))
-	        if self.f2_on:
-	            canv.itemconfig(self.id, fill='orange')
-	        else:
-	            canv.itemconfig(self.id, fill='black')
-	        canv.coords(self.id, 20, 450,
-	                    20 + max(self.f2_power, 20) * math.cos(self.an),
-	                    450 + max(self.f2_power, 20) * math.sin(self.an)
-	                    )
+            """Прицеливание. Зависит от положения мыши."""
+            if event:
+                self.an = math.atan((event.y-450) / (event.x-20))
+            if self.f2_on:
+                canv.itemconfig(self.id, fill='orange')
+                time.sleep(0.01)
+                self.power_up()
+            else:
+                canv.itemconfig(self.id, fill='black')
+            canv.coords(self.id, 20, 450,
+                        20 + max(self.f2_power, 20) * math.cos(self.an),
+                        450 + max(self.f2_power, 20) * math.sin(self.an)
+                        )
 	def power_up(self):
 	        if self.f2_on:
 	            if self.f2_power < 100:
@@ -137,6 +140,7 @@ class target():
             self.id = canv.create_oval(0,0,0,0, tag = 'b')
             self.id_points = canv.create_text(30,30,text = self.points,font = '28')
             self.new_target()
+
     def new_target(self):
         """ Инициализация новой цели. """
         x = self.x = rnd(600, 780)
@@ -150,7 +154,7 @@ class target():
         """Попадание шарика в цель."""
         canv.coords(self.id, -10, -10, -10, -10)
         self.points += points
-        canv.itemconfig(self.id_points, text=self.points)
+        #canv.itemconfig(self.id_points, text=self.points)
 
     def move(self):
         self.x += self.vx
@@ -165,7 +169,7 @@ class target():
                 tag = 'b'
         )
         if (self.x + self.r) > 800 or (self.x - self.r) < 0:
-            self.vx  *= (-0.9)
+            self.vx  *= (-0.8)
         if (self.y + self.r) > 600 or (self.y - self.r) < 0:
             self.vy *= (-0.8)
         self.live -= 1
@@ -222,11 +226,8 @@ def new_game(event=''):
                 target.new_target(t2)
         canv.update()
         time.sleep(0.03)
-        g1.targetting()
-        g1.power_up()
-    print(1)
     canv.itemconfig(screen1, text='')
-    canv.delete(gun)
+    canv.delete()
     root.after(750, new_game)
 
 
